@@ -1,0 +1,224 @@
+\documentclass[11pt,openany]{article}
+\usepackage{geometry}
+\geometry{
+	letterpaper,
+	margin=1in
+}
+\usepackage{blindtext}
+\usepackage{tikz,tcolorbox,tikz-3dplot}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\usepackage{xcolor}
+\usepackage{amsfonts}
+\usepackage{hyperref} 
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[normalem]{ulem}
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\usepackage{appendix}
+
+\usepackage[ruled,linesnumbered]{algorithm2e}
+\SetKwComment{Comment}{/* }{ */}
+\DontPrintSemicolon 
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}
+\usepackage{makecell}
+\graphicspath{ {./images/} }
+\usepackage{enumitem}
+\usepackage{soul}
+\usepackage{mathtools}
+\usepackage{wrapfig}
+\usepackage{mathrsfs}
+\usepackage{centernot}
+\usepackage{amsthm}
+\usepackage{listings}
+%\usepackage{biblatex}
+%\addbibresource{bibliograph.bib}
+\usepackage{microtype}
+\usepackage{pagenote}
+\usepackage{array}
+\usepackage{xparse}
+
+\tcbuselibrary{theorems}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+%% End notes to be printed as sections at the
+%% end of each chapter.
+\renewcommand*{\notedivision}{\section*{\notesname}}
+\renewcommand*{\pagenotesubhead}[1]{}
+
+%\newcommand*{\exercises}{\section*{\exercisename}}
+%%%%%%%%%%%%% For customising the endnote markers. Comment these out if you don't want them.
+% To prefix each note number with the chapter number
+\renewcommand{\thepagenote}{\thechapter-\arabic{pagenote}}
+
+% To have a slightly different formatting for the endnote numbers in the text -- smaller text, sans-serif, square brackets
+\renewcommand\notenumintext[1]{\space{\footnotesize\sffamily[FN-#1]}}
+
+% To have a slightly different formatting for the endnote numbers in the notes section. Just the square brackets and sans-serif; normal size.
+\renewcommand\notenuminnotes[1]{{\sffamily[FN-#1] }}
+% If you want a different name/heading for the end notes
+\renewcommand{\notesname}{End Notes}
+\newcommand{\exercisename}{Exercises}
+\newcounter{thatonetheorem}
+\newcounter{exercisecounter} % continuity of exercises in a section
+\newenvironment{exerciselist}{
+	\begin{enumerate}
+		\setcounter{enumi}{\value{exercisecounter}}
+	}{
+		\setcounter{exercisecounter}{\value{enumi}}
+	\end{enumerate}
+}
+\newenvironment{thatonethmlist}{
+	\begin{enumerate}
+		\setcounter{enumi}{\value{thatonetheorem}}
+	}{
+		\setcounter{thatonetheorem}{\value{enumi}}
+	\end{enumerate}
+}
+\newcommand*{\exercises}{\section*{\exercisename}}
+
+\newcommand\todo{\textcolor{red}{\textbf{TODO: }}}
+%%%%%%%%%%%%% End customisation
+\newcommand{\reals}{\mathbb{R}}
+\newcommand\defeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\newcounter{thmcounter} % continuity of theorem
+
+\newcommand{\definition}[2]{\addtocounter{thmcounter}{1}
+\begin{tcolorbox}[title=Definition {\thesection}.{\arabic{thmcounter}} ({#1}),colframe=black]
+		{#2}\end{tcolorbox}
+
+
+}
+\newcommand{\proposition}[1]{
+	\addtocounter{thmcounter}{1}
+	\begin{tcolorbox}[title=Proposition {\thesection}.{\arabic{thmcounter}},colframe=red!50!blue!20!white,colback=red!35!blue!10!white, coltitle=black]{#1}\end{tcolorbox}
+
+}
+\newcommand{\theorem}[2]{
+\addtocounter{thmcounter}{1}
+\begin{tcolorbox}[title=\color{black}Theorem {\thesection}.{\arabic{thmcounter}} ({#1}),colframe=red!40,colback=red!5!white]{#2}\end{tcolorbox}
+	
+}
+\newcommand{\lemma}[1]{
+\addtocounter{thmcounter}{1}
+\begin{tcolorbox}[title=\color{black}Lemma {\thesection}.{\arabic{thmcounter}},colframe=blue!40,colback=blue!5!white]{#1}\end{tcolorbox}
+	
+}
+\newcommand{\example}[1]{\addtocounter{thmcounter}{1}\begin{tcolorbox}[title=Example {\thesection}.{\arabic{thmcounter}},colframe=yellow!20!white,colback=yellow!10!white,coltitle=black]{#1}\end{tcolorbox}
+
+
+}
+\newcommand{\corollary}[1]{	\addtocounter{thmcounter}{1}\begin{tcolorbox}[]{Corollary {\thesection}.{\arabic{thmcounter}}: {#1}}\end{tcolorbox}
+	
+
+}
+
+
+%%% Eliseu's fix for theorem numbering
+
+% Definition
+\NewTcbTheorem[number within=section, use counter=thmcounter]{adefinition}{Definition}{
+	colframe=black, 
+	separator sign none, 
+	description delimiters parenthesis}{def}
+% Proposition
+\NewTcbTheorem[number within=section, use counter=thmcounter]{aproposition}{Proposition}{
+	colframe=red!50!blue!20!white,colback=red!35!blue!10!white, coltitle=black,
+	separator sign none, 
+	description delimiters parenthesis}{prop}
+% Theorem
+\NewTcbTheorem[number within=section, use counter=thmcounter]{atheorem}{Theorem}{
+	colframe=red!40,colback=red!5!white, coltitle=black,
+	separator sign none, 
+	description delimiters parenthesis}{thm}
+
+% Lemma
+\NewTcbTheorem[number within=section, use counter=thmcounter]{alemma}{Lemma}{
+	colframe=blue!40,colback=blue!5!white, coltitle=black,
+	separator sign none, 
+	description delimiters parenthesis}{lemma}
+% Example
+\NewTcbTheorem[number within=section, use counter=thmcounter]{aexample}{Example}{
+	colframe=yellow!20!white,colback=yellow!10!white,coltitle=black,
+	separator sign none, 
+	description delimiters parenthesis}{ex}
+% Corollary
+\NewTcbTheorem[number within=section, use counter=thmcounter]{acorollary}{Corollary}{
+	separator sign none, 
+	description delimiters parenthesis,
+	coltitle=black,
+	attach title to upper={:\ }}{cor}
+
+
+%%% Eliseu's fix for backwards compatibility with Chi's macros
+
+\let\olddefinition\definition
+\let\oldproposition\proposition
+\let\oldtheorem\theorem
+\let\oldexample\example
+\let\oldcorollary\corollary
+\let\oldlemma\lemma
+
+\renewcommand{\definition}[3][\relax]{\ifx\relax#1\olddefinition{#2}{#3}\else \begin{adefinition}{#2}{#1} #3 \end{adefinition} \fi}
+\renewcommand{\proposition}[2][\relax]{\ifx\relax#1\oldproposition{#2}\else \begin{aproposition}{}{#1} #2 \end{aproposition} \fi}
+\renewcommand{\theorem}[3][\relax]{\ifx\relax#1\oldtheorem{#2}{#3}\else \begin{atheorem}{#2}{#1} #3 \end{atheorem} \fi}
+\renewcommand{\example}[2][\relax]{\ifx\relax#1\oldexample{#2}\else \begin{aexample}{}{#1} #2 \end{aexample} \fi}
+\renewcommand{\corollary}[2][\relax]{\ifx\relax#1\oldcorollary{#2}\else \begin{acorollary}{}{#1} #2 \end{acorollary} \fi}
+\renewcommand{\lemma}[2][\relax]{\ifx\relax#1\oldlemma{#2}\else \begin{alemma}{}{#1} #2 \end{alemma} \fi}
+\newtheorem*{remark}{Remark}
+\newtheorem*{notation}{Notation}
+%\newcommand{\exercises}{\section*{\exercisename}}
+%% THIS LINE IS MANDATORY
+\makepagenote
+
+\newcommand{\newsection}{\setcounter{thmcounter}{0}}
+%\ref{def:label}, \ref{prop:label}, \ref{thm:label}, \ref{ex:label}, \ref{cor:label}.
+% \setcounter{thmcounter}{0}
+% \begin{atheorem}[foor}{bar}{label} or use square brackets before the function, like 
+\setcounter{section}{-1}
+\usepackage{titling}
+\predate{}
+\postdate{}
+\date{}
+\title{EE 495 Game Theory and Networked Systems}
+%\author{Chi Li}
+\begin{document}
+\maketitle
+\input{Lecture 1.tex}
+\end{document}

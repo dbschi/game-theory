@@ -1,0 +1,72 @@
+\section{Syllabus}
+\newsection
+All logistics are on canvas.
+
+Randy Berry: Office L352.
+
+There are no required texts for the class. There are some references (4) that are suggested on Canvas. 
+\subsection*{Prereqs}
+\begin{enumerate}
+    \item No prior knowledge on game theory is required.
+    \item Mathematical background is required. Linear algebra, probability, optimization, mathematical maturity.
+\end{enumerate}
+\subsection*{Grades}
+\begin{itemize}
+    \item Midterm: in class, $35\%$
+    \item Final project: $35\%$
+    \item Problemsets: $30\%$
+\end{itemize}
+\begin{atheorem}{}{}
+    Randy is a chill professor.
+\end{atheorem}
+\section{Lecture 1: Introduction to Game Theory}
+\newsection
+\definition{Game Theory}{
+    Game theory is the study of interactions of \textit{multiple strategic agents}.
+}
+Features of game theory:\begin{itemize}
+    \item More than one decision makers.
+    \item Each agent makes decisions to maximize self-interest.
+    \item These \textbf{agents} are players of the `game', and can be people, firms, countries (in political science), AI-agents etc.
+\end{itemize}
+
+\example{
+    The following are examples of `games':\begin{itemize}
+        \item 2 people playing chess. Their incentives do not align because each player wants to checkmate the other.
+        \item 2 firms competing in a market. They are selling the similar items and are trying to price their items to get a larger market share.
+        \item 4 countries competing to maximize GDP.
+    \end{itemize}
+}
+
+The other component of this course is network systems.
+\example{
+    The following are examples of network systems:\begin{itemize}
+        \item Communication network. 
+        \item Electricity network.
+        \item Transportation network.
+    \end{itemize}
+}
+We will use these as examples to illustrate the concepts in game theory. However, the same theory can extend into the other games.
+We want to model and analyze games. People are complicated to model, and our models are simplifications of reality. We need to understand what assumptions are made for each models to apply analysis. 
+
+\subsection*{Basic Game Model}
+\definition[basicgame]{Basic Game Model}{
+    A \textbf{strategic form game} $G$ consists of the following elements:\begin{enumerate}
+        \item The set of agents/players $R$, usually enumerated $R=\{1,2,3,\ldots, n\}$.
+        \item For every $r\in R$, the action set of player $r$ $S_r$. If $\left|\bigsqcup_r S_r\right|<\infty$, we call the game a \textbf{finite game}.
+        \item For every $r\in R$, a payoff function $\pi_r:\otimes_{r'} S_{r'}\to \reals$. Each agent $r$ wants to make the value wants to maximize $\pi_r$. 
+    \end{enumerate}
+}
+That means, there is only one round of this game, and everyone makes the same decision all at once.
+\begin{remark}
+    The action set can also be called the strategic set.
+\end{remark}
+\begin{notation}
+    The ordered set of everyone's actions except $r$ is \[
+    \overline{s_.}_r=(s_1,s_2,\ldots, s_{r-1},s_{r+1},\ldots,s_n).
+    \]
+    Therefore player $r$ is actually maximizing \[
+    \pi_r(s_r,\overline{s_.}_r).
+    \]
+    The second part of this function is outside of $r$'s control.
+\end{notation}
