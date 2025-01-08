@@ -54,7 +54,7 @@ We want to model and analyze games. People are complicated to model, and our mod
     A \textbf{strategic form game} $G$ consists of the following elements:\begin{enumerate}
         \item The set of agents/players $R$, usually enumerated $R=\{1,2,3,\ldots, n\}$.
         \item For every $r\in R$, the action set of player $r$ $S_r$. If $\left|\bigsqcup_r S_r\right|<\infty$, we call the game a \textbf{finite game}.
-        \item For every $r\in R$, a payoff function $\pi_r:\otimes_{r'} S_{r'}\to \reals$. Each agent $r$ wants to make the value wants to maximize $\pi_r$. 
+        \item For every $r\in R$, a payoff function $\pi_r:\otimes_{r'} S_{r'}\to \reals$. Each agent $r$ wants to maximize $\pi_r$. 
     \end{enumerate}
 }
 That means, there is only one round of this game, and everyone makes the same decision all at once.
@@ -63,10 +63,10 @@ That means, there is only one round of this game, and everyone makes the same de
 \end{remark}
 \begin{notation}
     The ordered set of everyone's actions except $r$ is \[
-    \overline{s_.}_r=(s_1,s_2,\ldots, s_{r-1},s_{r+1},\ldots,s_n).
+        \overline{s_{-r}}=(s_1,s_2,\ldots, s_{r-1},s_{r+1},\ldots,s_n).
     \]
     Therefore player $r$ is actually maximizing \[
-    \pi_r(s_r,\overline{s_.}_r).
+    \pi_r(s_r,\overline{s_{-r}}).
     \]
     The second part of this function is outside of $r$'s control.
 \end{notation}
@@ -118,9 +118,9 @@ far (-5,-1) (-2,-2)
 
 \definition[dominant]{Dominant action}{
     An Action is $s_r^*$ is \textbf{weakly dominant} if \[
-    \pi_r(s_r^*,\overline{s_.}_r)\geq\pi_r(s_r,\overline{s_.}_r)
+    \pi_r(s_r^*,\overline{s_{-r}})\geq\pi_r(s_r,\overline{s_{-r}})
     \]
-    for all $s_r\neq s_r^*$, and any $\overline{s_.}_r$.
+    for all $s_r\neq s_r^*$, and any $\overline{s_{-r}}$.
     If inequality is strict, then the action is \textbf{strictly dominant}.
 }
 \corollary{
