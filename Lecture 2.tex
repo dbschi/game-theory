@@ -1,0 +1,107 @@
+\section{Lecture 2: Games with Continuous Strategies}
+\newsection
+\subsection*{Recap of last lecture}
+\begin{enumerate}
+    \item Definition of Game
+    \item Dominant Strategies
+    \item Nash Equilibrium
+\end{enumerate}
+
+\begin{aexample}{First Price Auction}{firstprice}
+    A single object is to be assigned to one player from $1-n$ in exchange for payment.
+    Each player values the object at $v_1>v_2>\ldots>v_n>0$ respectively.
+    The players submit bids $b_i\geq 0$. The player with the highest bid gets the item and pays its bid. If there is a tie, the object goes to the player with the lowest index.
+\end{aexample}
+
+In this case, the payoff function would be $v_i-b_i$ for the winning player $i$, and $0$ for everyone else.
+\[
+\pi_r(b_r,\overline{b_{-r}})=\begin{cases}
+    v_r-b_r, & \textrm{if $b_r>b_s\forall s<r$, $b_r\geq b_s \forall s\geq r$}\\
+    0, & \textrm{otherwise.}
+\end{cases}
+\]
+There is no dominant strategy. Each bidder will always want to bid slightly higher than everyone else. There is a Nash Equilibrium. Namely, $b_r=v_r$ for all $r\geq 2$ and $b_1=v_2$. 
+\begin{remark}
+    Nash equilibrium here is not unique. But the outcome is always the same. The item always goes to player $1$.
+\end{remark}
+\begin{aexample}{Cournot Competition}{}
+    There are two firms. They produce the same good (indistiguishable). Each firm chooses a quantity $q_{i}$ to produce at a cost of $c_i$ per good. They sell it at a market price $p(q_1+q_2)=1-q_1-q_2.$ Find the Nash equilibrium of the game.
+\end{aexample}
+In this case, the payoff function is \[
+\pi_i(q_i,q_{-i})=(1-q_1-q_2)q_i-c_i q_i.
+\]
+To solve for the equilibrium, we motivate the following definition.
+\definition{Best Response Correspondence}{
+    For each player $i$, let \[
+    B_i(q_{-i})\defeq \textrm{argmax}_{q_i} \pi_i(q_i,q_{-i})
+    \]
+    be the \textbf{best response correspondence} of player $i$. This function can be multi-valued.
+}
+\proposition{
+    At a Nash Equilibrium profile $\overline{q^*}$, we would have $q^*_i\in B_i(q*_{-i})$.
+}
+
+Solving for the previous example, we would get, by completing the square \begin{align*}
+    B_1(q_2)=\max\big(\frac{1-q_2-c_1}{2},0\big)\\
+    B_2(q_1)=\max\big(\frac{1-q_1-c_2}{2},0\big)\\
+\end{align*}
+We can thus plot $B_1$ and $B_2$ on the axes $q_1,q_2$. The intersection of the two graphs will be the nash equilibrium, as they are playing the best response to the other player. Solving the two equations give
+\begin{align*}
+    q_1&=\frac{1-2c_1+c_2}{3},\\
+    q_2&=\frac{1-2c_2+c_1}{3},\\
+\end{align*}
+provided that $c_1,c_2$ are small enough that these do not into the negatives.
+\subsubsection*{Sanity check}
+The solution is symmetric. If the cost for both firms are the same, they will each produce $(1-c_1)/3$. If $c_1$ increases, $q_1$ decreases and $q_2$ increases.
+\begin{notation}
+    Given an action profile $\overline{s}$, we set the best response correspondence for all players to be the vector-valued function \[
+    B(\overline{s})=\begin{bmatrix}
+        B_1(\overline{s})\\ \vdots\\ B_n(\overline{s})
+    \end{bmatrix}
+    \]
+    Thus a Nash equilibrium profile $\overline{s^*}$ satisfies \[
+    B(\overline{s^*})=\overline{s^*}.
+    \]
+\end{notation}
+
+Therefore, we are interested in the fixed points of $B:\prod_{r}^{S_r} \to \prod_{r}^{S_r} $. We introduce two main fixed point results.
+\theorem{Brower}{
+    Let $V$ be a compact convex set. Then any continuous function $f:V\to V$ has a fixed point. 
+}
+\theorem{Kakutani}{
+    TBD
+}
+
+\definition{Concave Game}{
+    A game is said to be \textbf{concave} if for each player $r$: 
+    \begin{enumerate}
+        \item $S_r$ is a non-empty compact convex subset of $\reals^n$.
+        \item The payoff $\pi_r(s_r,\overline{s_{-r}})$ is continuous in $s_r$ for each $\overline{s_{-r}}$.
+        \item  The payoff $\pi_r(s_r,\overline{s_{-r}})$ is concave in $s_r$ for each $\overline{s_{-r}}$.
+    \end{enumerate}
+}
+\begin{atheorem}{}{}
+    Every concave game has a Nash equilibrium.
+\end{atheorem}
+\begin{proof}[Idea of proof]
+    Assume that $B(\overline{s})$ is single-valued. We want to show that $B$ is continuous on the convex set $\prod S_r$.
+    So we cheat and apply the following lemma (Maximum thoerem) to get our result.
+\end{proof}
+\begin{alemma}{Maximum Theorem}{}
+    If $f(\overline{x},\overline{\theta})$ is continuous in $\overline{x} $ and $\overline{\theta}$, then \[
+    x^* = \textrm{argmax}_{\overline{x}\in A} f(\overline{x},\overline{\theta})
+    \]
+    is continuous in $\theta$.
+\end{alemma}
+We can apply this theorem to the Cournot game. First, we notice that it is not profitable to produce $q_i>1$ goods for each player, so we can restrict the strategy space to the convex set $[0,1]$. Next, the function is quadratic and is continuous and concave. Thus, there is a Nash equilibrium.
+\begin{remark}
+    You can generalize the existence of Nash equilibrium to `quasi-concave games'. You can also put futher restrictions to the guarantee the uniqueness of the Nash equilibrium (Rosen).
+\end{remark}
+
+
+\subsection*{Justification}
+Nash equilibrium assumes that players are rational interspective agents. That is, there is a \textbf{common knowledge of rationality}, which means that each player is not only rational and knows that each other player is rational, and that each other player is aware that each other player is aware is each other player is rational, inductively ad infinitum.
+
+There is also no existence of binding arguments. 
+
+Focal points. A Nash equilibrium is a self-enforcing outcome. If the same game is played multiple times, then through a best-response dynamic, (supposing it converges), it converes to a Nash equilibrium.
