@@ -70,19 +70,21 @@ We have\begin{align*}
     
         \begin{tikzpicture}[scale=4, every node/.style={font=\small}]
             % Axes
-            \draw[->] (0,0) -- (1.2,0) node[right] {$p$};
-            \draw[->] (0,0) -- (0,1.2) node[above] {$q$};
+            \draw[->] (0,0) -- (1.2,0) node[right] {$q$};
+            \draw[->] (0,0) -- (0,1.2) node[above] {$p$};
             
             % Best response lines
-            \draw[red, thick] (0,0) -- (0.5,0)  -- (0.5,1)node[pos=0.75, right] {$B_1(q_2)$} -- (1,1);
-            \draw[blue, thick] (1,0) -- (1,0.5)  -- (0,0.5)node[pos=0.75, above] {$B_2(q_1)$} --(0,1);
+            \draw[red, thick] (0,0) -- (0.5,0)  -- (0.5,1)node[pos=0.75, right] {$B_1(q)$} -- (1,1);
+            \draw[blue, thick] (1,0) -- (1,0.5)  -- (0,0.5)node[pos=0.75, above] {$B_2(p)$} --(0,1);
         
             % Nash equilibrium point
             \fill (0.5,0.5) circle (0.02) node[above right] {NE};
         
             % Labels on axes
-            \draw[thick] (-0.1,0.5) node [below]{$0.5$};
-            \draw[thick] (0.5,-0.1) node [right]{$0.5$};
+            \draw (-0.1,0.5) node {$0.5$};
+            \draw (0.5,-0.1) node {$0.5$};
+            \draw (-0.1,1) node {$1$};
+            \draw (1,-0.1) node {$1$};
         \end{tikzpicture}
         \end{center}
   
