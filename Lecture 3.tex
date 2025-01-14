@@ -1,0 +1,137 @@
+\section{Lecture 3: Finite Games}
+\newsection
+\subsection*{Recap of last lecture}
+\begin{enumerate}
+    \item Games with continuous strategy spaces.
+    \item Best responses
+    \item Existence of Nash Equilibria for concave games.
+\end{enumerate}
+
+Recall example \ref{ex:attackdefend}, we do not have a Nash equilibrium for this. However we can introduce mixed strategies.
+\definition{Mixed Strategy}{
+    A \textbf{mixed strategy} is a probability distribution over $S_i$.
+Let $\sigma_i$ denote a mixed strategy for player $i$. $\sigma_i(s_i)\defeq$ probability of playing $s_i$. If there is $\sigma_i(s_i)=1$, this is called a pure strategy.
+}
+Given a set of mixed strategies in a game, let \[
+    \bar{\sigma}(\bar{s}) = \prod_{r=1}^{n}\sigma_r(s_r).\]
+That is, the decisions of each player are independent.
+Thus, the payoff of player $i$ (by abuse of notation)\[
+\pi_i(\bar{\sigma})=\sum_{\bar{s}\in \prod S_i} \bar{\sigma}(\bar{s})\pi_i(\bar{s})
+\]
+\begin{aexample}{}{}%{Attacker Defender}{attackdefend}
+    Return to the game in example \ref{ex:attackdefend} with reward matrix
+    \begin{center}
+        \begin{tabular}{|c|c c|} 
+            \hline
+            Attacker\textbackslash User & A&B \\ 
+            \hline
+            A & (1,0) & (0,1)\\ 
+            \hline
+            B & (0,1)&(1,0)\\
+            \hline
+        \end{tabular}
+    \end{center}
+    Suppose the attacker (player 1) chooses A or B with $0.5$ probability each, while the defender (player 2) chooses A at $0.25$ probability and B with $0.75$ probability.
+    Calculate the expected payoff of the game.
+\end{aexample}
+We have\begin{align*}
+    \pi_1(\bar{\sigma}) = 0.5\cdot 0.25 \cdot 1 + 0.5\cdot 0.75\cdot 1 + \textrm{terms involving $0$'s} = 0.5.
+\end{align*}
+
+    Let $\Sigma_i$ denote the space of all mixed strategies for player $i$. For a finite game, we can plot this as a $k$-dimensional simplex $x_1+\cdots+x_k=1$. We then view games with mixed strategies as a game where strategy set is now $\Sigma_i$ with payoff $\pi_i(\bar{\sigma})$. 
+    We can thus define Nash Equilibrium for a finite game with mixed strategies to be the Nash Equilibrium of this game.
+    \definition{Nash Equilibrium w/ Mixed Strategies}{
+        A Nash Equilibrium $\sigma_1^*,\ldots, \sigma_n^*$ is a set of probability distribution such that \[
+        \pi_i(\sigma_i^*,\bar{\sigma}_{-i}^*) \geq (\sigma_i,\bar{\sigma}_{-i}^*)
+        \]
+        for all $\sigma_i$.
+    }
+    \theorem[]{}{
+        Nash equilibria exists for finite games with mixed strategies.
+    }
+    \begin{proof}
+        We show that the game with continuous strategy sets is a concave game. \\
+        $\Sigma_i$ is a closed, bounded, convex set.  \\ 
+        $\pi_i(\bar\sigma)$ is a continuous function in $\bar{\sigma}$\\
+        $\pi_i(\sigma_i,\bar{\sigma}_{-i}^i)$ is concave (linear) in $\sigma_i$ for all $\sigma_{-i}$.
+        Since this game is concave, the Nash equilibrium exists by theorem \ref{thm:concavenash}. 
+    \end{proof}
+
+    What is the Nash equilibrium for the attacker-defender scenario? Let us say that 1 and 2 chooses channel A with probability $p$ and $q$ respectively.
+    Then 1 seeks to maximize \[
+    pq+(1-p)(1-q) = p(2q-1)+(1-q).
+    \]
+    in $p$. Obviously, the attacker wants to choose the channel such that the defender has $1/2$ chance of choosing, or any random distribution if the defender choose each channel with $1/2$.
+    2 seeks to maximize \[
+        q(1-p)+p(1-q)
+        \]
+        in $q$.
+    \begin{center}
+    
+        \begin{tikzpicture}[scale=4, every node/.style={font=\small}]
+            % Axes
+            \draw[->] (0,0) -- (1.2,0) node[right] {$p$};
+            \draw[->] (0,0) -- (0,1.2) node[above] {$q$};
+            
+            % Best response lines
+            \draw[red, thick] (0,0) -- (0.5,0)  -- (0.5,1)node[pos=0.75, right] {$B_1(q_2)$} -- (1,1);
+            \draw[blue, thick] (1,0) -- (1,0.5)  -- (0,0.5)node[pos=0.75, above] {$B_2(q_1)$} --(0,1);
+        
+            % Nash equilibrium point
+            \fill (0.5,0.5) circle (0.02) node[above right] {NE};
+        
+            % Labels on axes
+            \draw[thick] (-0.1,0.5) node [below]{$0.5$};
+            \draw[thick] (0.5,-0.1) node [right]{$0.5$};
+        \end{tikzpicture}
+        \end{center}
+  
+\proposition{In any mixed strategy nash equilibrium, each player must be getting the same payoff from any action it plays with positive probability.}
+\begin{proof}
+    The best response to any strategy is to put all the weight on the response with highest payoff.
+\end{proof}
+ 
+\begin{aexample}{Public Good Game}{}
+    Suppose $N$ people, each receives a value of $v>0$ if any one of them provides a `good' at cost of $c>0$ and get $0$ payoff otherwise. Call the strategy set ``y'' and ``n''. To keep things interesting, assume $c>v$.
+\end{aexample}
+For example, filing a public report, or community networks (set up some kind of wireless access point).
+In this game the payoff is \[
+\pi_i(s_i,\bar{s}_{-i})=\begin{cases}
+    v-c,& \textrm{if }s_i=\rm{y},\\
+    v,& \textrm{if }s_i=\rm{n},\exists s_j=\rm{y},\\
+    0,& \textrm{if }s_j=\rm{n}\forall $j$.
+\end{cases}
+\]
+There are $n$ different Nash equilibria. Each corresponds to one person providing the good and no one else does. However, there is no clear reason to pick one person to offer the good than another. We wonder if there is a symmetric mixed strategy equilibrium. I.e. \begin{quotation}
+    A strategy where each player chooses ``y'' with probability $p$.
+\end{quotation}
+Therefore, we are solving for a $p$ such that for each agent alone, the payoff for any person switching from y to n does not matter.
+The payoff for choosing y is $v-c$. The payoff for choosing n is \[
+    v-v(1-p)^{n-1}.
+\]
+Therefore we solve for \[
+    v-c=v-v(1-p)^{n-1}\implies c=v(1-p)^{n-1} \implies 1-\sqrt[n-1]{\frac{c}{v}}=p.
+\]
+At this equilibrium, notice that the probability that the good is provided is $1-(1-p)^n=1-(c/v)^{1+1/n}\to 1-c/v$ as $n\to\infty$. This is known as a `free-rider problem', since as more people enter the game, they all want to contribute less.
+
+Mixed strategies can apply to games with infinite strategy spaces. \example{
+    $S_r=[0,1]$, then the strategy set (with mixed strategies) are all probability measures on $[0,1]$. 
+}
+\definition{Continuous game}{
+    A \textbf{continuous game} is a game for which the strategy spaces are non-empty, compact subsets of $\reals^n$ and payoffs that are continuous in $\bar{s}$.
+}
+\theorem{Glicksberg}{
+    A continuous game has a mixed strategy Nash equilibrium.
+}
+\begin{remark}
+    Recall we have a pure strategy Nash equilibrium for concave games. If we remove the concave assumption, we will need mixed strategies to reduce the game into a concave game.
+\end{remark}
+
+\subsection*{Defences and critiques of Mixed strategies}
+\begin{itemize}
+    \item \textbf{A mixed strategy equilibrium is not as predictive as a pure strategy.} In our attacker-defender game, the mixed-strategy equilibrium gives no additional information (entropically speaking) on which channel the players will play. 
+    \item \textbf{There are no `mixed strategies' for a single play of a game.} If we just do the game once, we will not be able to observe the proabiltiy distribution. If the game is played multiple times over, we can get statistics to infer probability distributions. 
+    \item \textbf{In some games, mixed strategies can seem natural.} e.g. attacker defender, rock paper scissors. 
+    \item \textbf{Pure strategies might be prefered.} E.g. Cournot competitions.
+    \item 
+\end{itemize}

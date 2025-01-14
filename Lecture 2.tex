@@ -45,7 +45,26 @@ Solving for the previous example, we would get, by completing the square \begin{
     B_1(q_2)=\max\big(\frac{1-q_2-c_1}{2},0\big)\\
     B_2(q_1)=\max\big(\frac{1-q_1-c_2}{2},0\big)\\
 \end{align*}
-We can thus plot $B_1$ and $B_2$ on the axes $q_1,q_2$. The intersection of the two graphs will be the nash equilibrium, as they are playing the best response to the other player. Solving the two equations give
+We can thus plot $B_1$ and $B_2$ on the axes $q_1,q_2$. The intersection of the two graphs will be the nash equilibrium, as they are playing the best response to the other player.
+\begin{center}
+    
+\begin{tikzpicture}[scale=4, every node/.style={font=\small}]
+    % Axes
+    \draw[->] (0,0) -- (1.2,0) node[right] {$q_2$};
+    \draw[->] (0,0) -- (0,1.2) node[above] {$q_1$};
+    
+    % Best response lines
+    \draw[red, thick] (0,0.5) -- (0.7,0) node[pos=0.75, right] {$B_1(q_2)$} -- (1,0);
+    \draw[blue, thick] (0.5,0) -- (0,0.7) node[pos=0.75, above right] {$B_2(q_1)$}--(0,1);
+
+    % Nash equilibrium point
+    \fill (0.291667,0.291667) circle (0.02) node[above right] {NE};
+
+    % Labels on axes
+    \draw[thick] (0,0.5) -- (-0.02,0.5) node[left] {$\frac{1-c_1}{2}$};
+    \draw[thick] (0.5,0) -- (0.5,-0.02) node[below] {$\frac{1-c_2}{2}$};
+\end{tikzpicture}
+\end{center} Solving the two equations give
 \begin{align*}
     q_1&=\frac{1-2c_1+c_2}{3},\\
     q_2&=\frac{1-2c_2+c_1}{3},\\
@@ -80,7 +99,7 @@ Therefore, we are interested in the fixed points of $B:\prod_{r}^{S_r} \to \prod
         \item  The payoff $\pi_r(s_r,\overline{s_{-r}})$ is concave in $s_r$ for each $\overline{s_{-r}}$.
     \end{enumerate}
 }
-\begin{atheorem}{}{}
+\begin{atheorem}{}{concavenash}
     Every concave game has a Nash equilibrium.
 \end{atheorem}
 \begin{proof}[Idea of proof]
@@ -105,3 +124,13 @@ Nash equilibrium assumes that players are rational interspective agents. That is
 There is also no existence of binding arguments. 
 
 Focal points. A Nash equilibrium is a self-enforcing outcome. If the same game is played multiple times, then through a best-response dynamic, (supposing it converges), it converes to a Nash equilibrium.
+
+\subsubsection*{Taken from Randy's notes:}
+We know that action of an agent in a Nash equilibria is a rational response to the equilibrium profile of the other users, but how do we coordinate Nash equilibrium with other players if we have just met. In other words, How do we know that other agents will play this profile and why they chose this profile to play?
+There are couple of justifications that can be used based on the problem we are solving. Here we talk about some possible ones:
+\begin{itemize}
+    \item  \textbf{Nash equilibrium as a self-enforcing outcome.} This first justification works for so-called one-shot games that players just meet and play a game just once. In this setting, what will lead players to a NE? One possible approach of justification is a non-binding agreement between players. If this non-binding agreement is a NE, none of these players have any incentive to break the rule and deviate from it. In this sense, each player enforce himself to follow the agreement. Note that this justification assumes rationality of players.
+    \item \textbf{Nash equilibrium as the outcome of long-run learning.} One other idea of justification NE comes as a re-sult of learning process of players when they have the chance to play one game many times. We assume that players can experiment with different actions to seek possible actions to improve their payoff functions. Such a process might not reach a NE necessarily, but if it reaches a steady state where players can't improve their actions given what others are playing, then this steady-state is necessarily a NE. In this justification, we can assume that each player does not have full information about payoff function and rationality of other players and may learn enough about them by playing the game repeatedly and reaching a NE. One possible downside of this justification is that players might deviate from their learning in order to fool other players.
+    \item \textbf{Nash equilibrium as a result of lots of thinking.} Nash equilibrium can also be justified when players put a lot of effort to compute how other people might play the game before actually starting the game. 
+\end{itemize}
+Note that although these justifications might work in some certain settings, justification becomes moresophisticated when there are more than one NE, where equilibrium selection is needed.
