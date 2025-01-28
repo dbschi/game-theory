@@ -1,0 +1,173 @@
+\section{Lecture 7: Fictitious play}
+\newsection
+\subsection*{Logistics}
+\begin{itemize}
+    \item Posted project description
+    \item HW will be posted tonight
+\end{itemize}
+\subsection*{Recap}
+\begin{enumerate}
+    \item Best response dynamics
+    \item Supermodular games 
+\end{enumerate}
+
+The idea of fictitious play is that each player assumes the opponents are using a `stationary mixed strategy'.
+Instead of best response to last action, we estimate the mixed strategy and respond to the estimated strategy.
+\definition[]{}{
+    Let $\{G_t\}_{t\in\mathbb{N}}$ be a sequence of the same games (i.e same players) indexed in $t$ (and played in this order). Let $S_i^t$ be the (pure) action of player $i$ at time $t$. Let $\gamma_i^t(s_i)$ be the count $\#\{s_i^{t'<t}=s_i\}$.
+    Therefore, we can approximate the probability distribution \[
+    p_i^t(s_i)=\frac{\gamma_i^t(s_i)}{t}.
+    \]
+    Each player in fictitious play chooses $s_i^t\in B_i(\bar{p}_{-i}^t)$.
+}
+\begin{remark}
+    The trajectory is not unique.
+\end{remark}
+\begin{remark}
+    At $t=0$ we can assume that the strategy is arbitrary, or each player has an initial `belief' of the other agents' mixed strategies and update accordingly.
+\end{remark}
+\begin{aexample}{}{}
+    Consider the game with payoff
+    \begin{center}
+       
+        \begin{tabular}{|c|c c|} 
+            \hline &L & R\\
+            
+            \hline
+            U&(3,3)&(0,0)\\
+            \hline D&(4,0)&(1,1)
+            \\ \hline
+        \end{tabular}
+        \end{center}
+        There is a Nash equilibrium of (1,1). The game progresses as 
+        \begin{center}
+       
+            \begin{tabular}{|c|c c c|} 
+                \hline 
+                $t=0$ & $p_1(U,D)$&$p_2(L,R)$& $(U,L)$\\
+                \hline $t=1$ & (1,0) & (1,0) & $(D,L)$\\
+                \hline
+                $t=2$ & (1/2,1/2) & (1,0) & $(D,L)$\\
+                \hline 
+                $t=3$ & (1/3,2/3) & (1,0) & $(D,L)$
+                \\
+                \hline 
+                $t=4$ & (1/4,3/4)& (1,0)  & $(D,R)$\\ \hline
+            \end{tabular}
+            \end{center}
+            And $(D,R)$ continues after $t>4$.
+\end{aexample}
+
+This equilibrium is found without requiring knowledge of the other's payoffs.
+
+\definition{Convergence of strategy profiles}{
+    A sequence of strategy profiles $\{\bar{s}^t\}$ \textbf{converges} to  a profile $\bar{s}$ if there exists $T$ such that $\bar{s}^t=\bar{s}$ for all $t\geq T$. We denote this $\bar{s}^t\to \bar{s}$.
+}
+\proposition{
+    Under fictitious play, 
+    \begin{enumerate}
+        \item A strategy profile that converges must converge to a pure strategy Nash Equilibrium.
+        \item If for some time $T$, $\bar{s}^T=\bar{s}^*$, a strict Nash equilibrium, then $\bar{s}^t=\bar{s}^*$ for all $t>T$.
+    \end{enumerate}   
+}
+\begin{proof}
+    For the first statement, we play the game enough so that the empirical probability distribution concentrates approaches a pure strategy. Then by definition this is a pure strategy Nash equilibrium.
+
+    For the second statement, 
+    we note that \begin{align*}
+    p_i^{T+1}(s_i)&=\frac{\gamma_i^T(s_i)+ I_{s_i=s_i^*}}{T+1}\\
+    &= (1-\alpha)p_i^T(s_i)+\alpha I_{s_i=s_i^*},
+    \end{align*}
+    where $\alpha = t/(t+1)$.
+    That means the new distribution is a convex (linear) mixture of the previous distribution and the Nash equilibrium.
+    But for the Nash equilibrium and the previous distribution, the best response is $s_i^*$ for each player $i$. Since the best response for the Nash equilibrium has a strict inequality, we can conclude that the best response for time $T+1$ must also lead to the Nash equilibrium. Inductively, the strategy profile has to be the Nash equilibrium for all $t>T$.
+\end{proof}
+
+\definition{Convergence of Empirical Beliefs}{
+We say that $\{\bar{s}^t\}$ converges to $\sigma$ in the time average sense if \[
+\lim_{t\to \infty} p_i^t(s_i)=\sigma(s_i)
+\]
+for all $i$ and $s_i\in S_i$.
+}
+\example{
+    For the \hyperref[ex:attackdefend]{attacker defender problem}, we can show that this converges to $(1/2,1/2)$ for each player.
+    \begin{center}
+    \begin{tabular}{|c|c c c|} 
+        \hline 
+        $t=0$ & $p_1(A,B)$&$p_2(A,B)$& $(A,A)$\\
+        \hline $t=1$ & (1,0) & (1,0) & $(A,B)$\\
+        \hline
+        $t=2$ & (1,0)& (1/2,1/2) & $(B,B)$\\
+        \hline 
+        $t=3$ & (2/3,1/3) & (1/3,2/3) & $(B,A)$
+        \\
+        \hline 
+        $t=4$ & (1/2,1/2)& (1/2,1/2)  & $(A,A)$\\ \hline
+    \end{tabular}
+    \end{center}
+    and the cycle repeats. 
+    The empirical beliefs converges to (1/2,1/2), (1/2,1/2).
+}
+
+\theorem[]{}{
+    Suppose that fictitious play converges in time average to $\sigma$. Then $\sigma$ is a mixed-strategy Nash equilibrium.
+}
+\theorem[]{}{
+    Fictitious play converges in time average for \begin{enumerate}
+        \item A two player zero-sum game.
+        \item A two player game with at most two strategies for each player.
+        \item A game that is solvable by iterated strict dominance.
+        \item A potential game. 
+        \item Some supermodular games. 
+    \end{enumerate}
+}
+\begin{aexample}{Miscoordination}{}
+    Consider the game with payoff matrix
+    \begin{center}
+       
+        \begin{tabular}{|c|c c|} 
+            \hline &A & B\\
+            
+            \hline
+            A&(1,1)&(0,0)\\
+            \hline B&(0,0)&(1,1)
+            \\ \hline
+        \end{tabular}
+        \end{center}
+
+    There is a mixed strategy equilibrium where the players choose $A$ and $B$ with half probability each.
+    There is a sequence 
+    \begin{center}
+        \begin{tabular}{|c|c c c|} 
+            \hline 
+            $t=0$ & $p_1(A,B)$&$p_2(A,B)$& $(A,B)$\\
+            \hline $t=1$ & (1,0) & (0,1) & $(B,A)$\\
+            \hline
+            $t=2$ & (1/2,1/2)& (1/2,1/2) & $(A,B)$\\
+            \hline 
+            $t=3$ & (1/3,2/3) & (2/3,1/3) & $(B,A)$
+            \\
+            \hline 
+            $t=4$ & (1/2,1/2)& (1/2,1/2)  & $(A,B)$\\ \hline
+        \end{tabular}
+        \end{center}
+        In the limit, this indeed gives us the time average empirical beliefs. However, they are not getting the correct payoffs. (0 each time).
+\end{aexample}
+\begin{aexample}{Non-convergence}{}
+    Consider the game with the reward matrix  \begin{center}
+       
+        \begin{tabular}{|c|c  c c|} 
+            \hline &R & P & S\\
+            
+            \hline
+            R&(0,0)&(1,0)&(0,1)\\
+            \hline P&(0,1)&(0,0)&(1,0)\\
+             \hline S&(1,0)&(0,1)&(0,0)
+            \\ \hline
+        \end{tabular}
+        \end{center}
+The unique Nash equilibirum is $(1/3,1/3,1/3)$.
+The sequence here starts with everyone best responding (R,S), (R,P), (S,P), (S,R), (P,R), (P,S), (R,S). Then the cycle length increases (R,S), (R,P), (R,P), (S,P), (S,P)...
+
+So this does not converge (cycle lengths are too long).
+\end{aexample}
