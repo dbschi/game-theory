@@ -1,0 +1,157 @@
+\section{Lecture 8: Evolutionary Game Theory}
+\newsection
+\subsection*{Logistics}
+\begin{itemize}
+    \item HW2 posted, due one week from today.
+\end{itemize}
+
+Evolutionary Game Theory dates back to 1973 (John Maynard Smith, George Price).
+
+The idea is that we have a large population of potential players. For instance, different species/phenotypes of individuals. We pick two agents from this population to play a game. The winner reproduces faster. 
+
+\definition{Evolutionary game theory terminology}{
+    Let $G=(\{1,2\},\{S_1,S_2\},{\pi_1,\pi_2})$ be a finite, symmetric game (i.e. $S_1=S_2=S, \pi_1=\pi_2=\pi$). The \textbf{fitness} of a player playing strategy $s_i\in S$ is the expected payoff against a random member of the population.\\
+    A strategy $s_j$ is said to \textbf{invade} strategy $s_i$ at level $\epsilon\in[0,1]$ if $\epsilon$ of the population is type $j$ and $1-\epsilon$ of the population is type $i$.\\
+    An \textbf{evolutionary stable strategy} (ESS) is a strategy $s_i$ if $\exists\bar\epsilon >0$ such that if any other strategy $s_j$ invades at level $\epsilon<\bar\epsilon$, the fitness of type $i<$ the fitness of type $j$.
+}
+\begin{remark}
+    The fitness depends on the distribution of strategy `types'.
+\end{remark}
+\begin{remark}
+    Intuitively, an evolutionary stable strategy can withstand invation of another strategy up to $\bar\epsilon$.
+\end{remark}
+\begin{aexample}{}{}
+    Consider this payoff for beetle sizes. \begin{center}
+        \begin{tabular}{|c|c c|} 
+            \hline &smol& beeg \\
+            
+            \hline
+            smol&(5,5)&(1,8)\\
+            \hline beeg&(8,1)&(3,3)
+            \\ \hline
+        \end{tabular}
+    \end{center}
+    Two smol beetles share the food. Beeg beetle takes most of the food. Two beeg beetles fight too much and the food is not as useful.
+
+    With only smol beetles, the fitness is $5$. Now let us introduce $\epsilon>0$ beeg beetles into the population. The smol beetles now have payoff \[
+    5(1-\epsilon)+ \epsilon = 5-4\epsilon.
+    \]
+    But the beeg beetles have payoff \[
+    8(1-\epsilon) + 3\epsilon = 8-5\epsilon > 5-4\epsilon
+    \]
+    for $0\leq\epsilon\leq 1$. Therefore, being smol is not an evolutionary stable strategy.
+
+    We change variables $\epsilon\mapsto 1-\epsilon$ to see that being beeg is an evolutionary stable strategy.
+\end{aexample}
+\proposition{
+    An evolutionary stationary strategy is a Nash Equilibrium.
+}
+\begin{proof}
+    Suppose a strategy $s^*$ is an evolutionary stable strategy, then \[
+        (1-\epsilon)\pi(s^*,s^*)+\epsilon \pi(s^*,s')>
+        (1-\epsilon)\pi(s',s^*)+\epsilon\pi(s',s')
+        \]
+        for some $\epsilon$ small enough and all $s'\neq s^*$.
+        Now we take $\epsilon\to 0 $,\[
+            \pi(s^*,s^*)\geq\pi(s',s^*).
+        \]
+\end{proof}
+\begin{remark}
+    If the Nash equilibrium is weak, then the other inequality is strict:\[
+        \pi(s^*,s')>
+       \pi(s',s')
+    \]
+\end{remark}
+
+The converse is also true, a strict nash equilibrium is an evolutionary stable strategy. \[
+\textrm{Strict Nash} \subset \textrm{ESS} \subset {Nash}
+\]
+These are distinct sets.\begin{aexample}{ESS but not strict}{}
+    \begin{center}
+        \begin{tabular}{|c|c c|} 
+            \hline &A& B \\
+            
+            \hline
+            A&(0,0)&(6,0)\\
+            \hline B&(0,6)&(3,3)
+            \\ \hline
+        \end{tabular}
+    \end{center}
+    There is a weak Nash equilibirum (A,A). But this is an evolutionary stable strategy. \[
+    (1-\epsilon)(0)+\epsilon(6)> (1-\epsilon)(0) + \epsilon(3).
+    \]
+    The reasoning is that adding in $B$ benefits $A$.
+\end{aexample}
+\begin{aexample}{Nash but not ESS}{}
+    \begin{center}
+        \begin{tabular}{|c|c c|} 
+            \hline &A& B \\
+            
+            \hline
+            A&(4,4)&(0,4)\\
+            \hline B&(4,0)&(3,3)
+            \\ \hline
+        \end{tabular}
+    \end{center}
+    There is a weak Nash equilibirum (A,A). But this is an not an evolutionary stable strategy. \[
+    (1-\epsilon)(4)+\epsilon(0)<(1-\epsilon)(4) + \epsilon(3).
+    \]
+    Adding in any small amount of B to the population of $A$ causes a decrease in payoff.
+\end{aexample}
+\definition{Mixed evolutionary stable strategy}{
+    A mixed strategy $\sigma^*$ is an ESS if there exists $\bar\epsilon > 0$ such that for all $\epsilon<\bar\epsilon$,\[
+        \pi_i(\sigma^*,\epsilon\sigma'+(1-\epsilon)\sigma^*)>\pi_i(\sigma',\epsilon\sigma'+(1-\epsilon)\sigma^*),
+    \]
+    for any other mixed strategy $\sigma'$.
+}
+\begin{aexample}{Hawk Dove}{hawkdove}
+    \begin{center}
+        \begin{tabular}{|c|c c|} 
+            \hline &D& H \\
+            
+            \hline
+            D&(3,3)&(1,5)\\
+            \hline H&(5,1)&(0,0)
+            \\ \hline
+        \end{tabular}
+    \end{center}
+
+    There are two symmetric strong Nash equilibria (D,H) and (H,D). However, these are not candidates for a pure ESS. We find the mixed ESS by letting a strategy $p$ chance of playing $D$ and $(1-p)$ chance of playing $H$. We solve for \[
+    p(3)+(1-p)(1)= p(5)+(1-p)0 \implies p=\frac{1}{3}.
+    \]
+    This is the only candidate for an evolutionary stable strategy. Indeed,for any other strategy playing $(1,1-q)$ invading $(1/3,2/3)$ at level $\epsilon$, the probability of meeting a dove strategy is \[
+    r=(1-\epsilon)\frac{1}{3}+\epsilon q
+    \]
+    The payoffs are \[
+        (\pi_i(\sigma^*,\epsilon\sigma'+(1-\epsilon)\sigma^*))-(\pi_i(\sigma',\epsilon\sigma'+(1-\epsilon)\sigma^*)) = \frac{1}{3}r3 + \frac{1}{3}(1-r)1+\frac{2}{3}r3+\frac{2}{3}(1-r)0 -\ldots >0
+    \] Just trust me bro. 
+\end{aexample}
+By the linearity of expectations, \begin{align*}
+    &(\pi_i(\sigma^*,\epsilon\sigma'+(1-\epsilon)\sigma^*))-(\pi_i(\sigma',\epsilon\sigma'+(1-\epsilon)\sigma^*)) \\=& \epsilon(\pi(\sigma^*,\sigma')-\pi(\sigma^*,\sigma^*)) + (1-\epsilon)\epsilon(\pi(\sigma',\sigma')-\pi(\sigma',\sigma^*)) 
+\end{align*}
+Assume that $\sigma^*$ plays all actions with some probability, and that $\sigma^*$ is a Nash equilibrium. Then \[
+\pi(\sigma^*,\sigma^*)=\pi(\sigma,\sigma^*),
+\]
+as a different mixing of the same strategies. Therefore, it suffices to check that \[
+    \pi(\sigma^*,\sigma')-\pi(\sigma^*,\sigma^*)>0
+\]to see that it is an ESS.
+
+\subsection*{Replicator Dynamics}
+\definition[]{Replicator Dynamics}{
+    Let $x_i(t)$ be the fraction of type $i$ in the population at time $t$, so that $\sum_i x_i(t)=1$ for all $t$.
+    Let $f_i(\bar{x}(t))$ be the fitness of type $i$ at time $t$.
+    Under \textbf{replicator dyanmics}, we evolve the system through the differential equation\begin{align*}
+        \frac{d}{dt}\frac{x_i}{x_j}=\frac{x_i}{x_j}[f_i(\bar{x}(t))-f_j(\bar{x}(t))].
+    \end{align*}
+}
+\proposition{
+Under replicator dynamics,\[
+\frac{d}{dt}x_i(t) = x_i(t)[f_i(\bar{x}(t))-\phi(\bar{x}(t))],
+\]where\[
+\phi(\bar{x}(t))\defeq \sum_j x_j(t) f_j(\bar{x}(t))
+\]
+is the average fitness of the population at time $t$.
+}
+\theorem[]{}{
+    If $x^*$ is an ESS, then it is asymptotically stable for replicator dynamics.
+}
