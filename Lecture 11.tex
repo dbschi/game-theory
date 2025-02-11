@@ -1,0 +1,150 @@
+\section{Lecture 11: Repeated Games}
+\newsection
+\subsection*{Logistics}
+\begin{enumerate}
+    \item Midterm (three-quarter term) will be on Feb 25 2025.
+    \item One more homework will be posted before the midterm.
+\end{enumerate}
+\subsection*{Recap}
+\begin{itemize}
+    \item Dynamic games with complete information
+    \item Perfect information (knowing every action taken before the turn)
+    \item Imperfect information (where there are simutaneous moves)
+    \item Subgame perfect nash equilibria (SPNE) found through backward induction, assuming finite stages.
+    \item A game with perfect information and finite strategies has an SPNE. All the SPNE can be found through backward induction.
+\end{itemize}
+
+
+We now work with repeated games. These are `stage games' that players play repeatedly. The player's objective is their discounted payoff over time.
+\[
+\sum_{t=0}^T \delta^t \pi_i(\bar{a}^t),\]
+where $\delta \in (0,1)$.
+\begin{aexample}{Prisoner's dilemna}{}
+    Consider the payoff matrix \begin{center}
+        \begin{tabular}{|c|c c|}
+            \hline & confess & deny \\
+            \hline 
+            confess & (0,0) & (4,-1)\\
+            \hline
+            deny & (-1,4) & (3,3)\\\hline
+        \end{tabular}
+    \end{center}
+    The dominant strategy is to confess (strictly dominant). However, there is a cooperative solution to both deny.
+\end{aexample}
+The cooperative solution does not occur in a single game. However, we might find a way to reach this stage through repeating this game multiple times. 
+
+Suppose we play the game $N$ times. In the $N$-th stage, the payoff matrix is 
+\begin{center}
+    \begin{tabular}{|c|c c|}
+        \hline & confess & deny \\
+        \hline 
+        confess & (0,0) & (4$\delta^N$,-1$\delta^N$)\\
+        \hline
+        deny & (-1$\delta^N$,4$\delta^N$) & (3$\delta^N$,3$\delta^N$)\\\hline
+    \end{tabular}
+\end{center}
+So both of them will confess. Then, in the previous stage, their payoff is whatever the game gives $+0$. So for any finitely repeated game of the prisoner's dilemna, the only SPNE is to confess every stage.
+\begin{atheorem}{}{}
+    In a finite repeated game where the stage game has a unique Nash Equilibrium, the only SPNE is to repeat the Nash equilibrium at every stage.
+\end{atheorem}
+
+Therefore, we should look at an infinitely repeated game, or a game without a unique Nash equilibirum.
+
+\example{
+    \begin{center}
+        \begin{tabular}{|c|c c c|}
+            \hline 
+            & D& C& N\\
+            \hline 
+            D &(3,3)&(-1,4)&(0,0)\\
+            \hline 
+            C &(-4,-1)&(0,0)&(0,0)\\
+            \hline 
+            N& (0,0)&(0,0)&(2,2)\\
+            \hline
+        \end{tabular}
+    \end{center}
+    There are two Nash equilibria here. (CC) and (NN).
+
+    However, there is a strategy where the second play is contingent on the play of stage 1.
+    \begin{enumerate}
+        \item Play D.
+        \item If opponent plays D, play N in stage 2. Otherwise play C.
+    \end{enumerate}
+    Assume that both players play this. We want to check that this is a subgame perfect Nash equilibrium.
+    Suppose one person deviates, then playing C the first round gives a payoff of $4$, opposed to $3+2\delta$. Then as long as $\delta>1/2$ there will be no deviation.
+}
+These strategies that punish uncooperative behaviour tend to only work for big $\delta$. If you don't care about the future punish then the game becomes more and more like a one-stage game.
+
+\definition{Infinitely repeated games}{
+    We define the payoff of an infinite game to be \[
+    (1-\delta) \sum_{t=0}^{\infty}\delta^t \pi_i(\bar{a}^t).
+    \]
+}
+\begin{remark}
+    The $(1-\delta)$ is just a normalization constant. If you play the same strategy every game then the payoff is exactly the payoff in one game.
+\end{remark}
+
+\subsection*{Why model it infinitely?}
+A long time feels infinite. If you tak $T$ to be large enough then $\delta^t$ becomes insignificant after some stage. (another argument: you do not know when the last stage of a game)
+
+\proposition{Playing a Nash equilibrium of stage games repeated is still a Nash equilibrium in an infinitely repeated game.}
+
+\begin{aexample}{Grim-trigger strategy}{}
+    In the infinitely repeating prisoner's dilemna, we play the following (grim-trigger) strategy:\begin{itemize}
+        \item Play D. 
+        \item If the other player plays C, play C forever. 
+    \end{itemize}
+    Determine if the grim-trigger strategy is a Nash Equilibirum.
+\end{aexample}
+Recall that the payoff matrix is
+\begin{center}
+    \begin{tabular}{|c|c c|}
+        \hline & confess & deny \\
+        \hline 
+        confess & (0,0) & (4,-1)\\
+        \hline
+        deny & (-1,4) & (3,3)\\\hline
+    \end{tabular}
+\end{center}
+
+Assume our opponent is playing the Grim trigger. We play D for $n-1$ turns and confess on the $n$-th turn. Starting from the $n+1$-st turn, our (best) payoff is $0$.
+Our total payoff is thus \[
+(1-\delta)\Big(\sum_{t=0}^{n-1}3\delta^t + 4\delta^{n}\Big).
+\]
+To make this better than not deviating, we require the (discounted)payoff starting in the $n$-st round to be larger than 3. That is, \[
+4(1-\delta)\delta^{n} > 3\delta^n \implies 4(1-\delta)> 3 \implies \delta >\frac{1}{4}.
+\]
+\begin{remark}
+    This is also a subgame perfect Nash equilibrium. The argument is a bit more complex, as you have to show that constantly playing $C$ works, even if your opponent repents!
+\end{remark}
+\begin{remark}
+    There are other strategies such as punishing $k$-turns. Punishing for $1$ turn is known as tit for tat.
+\end{remark}
+
+\begin{atheorem}{Folk theorem for repeated games}{}
+    Let $V$ be the convex hull of all the (vectorized) payoffs\[
+    V\defeq \rm{conv}\{\vec{v}\in \reals^n | \textrm{there is $\bar{s}$ such that $\pi(\bar{s})=\vec{v}$}\}.
+    \]
+    An outcome $\vec{v}$ is \textbf{feasible} if $\vec{v}\in V$.
+    We also say that an outcome $\vec{v}$ is \textbf{individually rational} if \[
+    v_i \geq \min_{a_{-1}}\max(a_i) \pi_i(a_i,a_{-i}).
+    \]
+
+    Let $\vec{v}$ be feasible and strictly individually rational. Then there is $\tilde{\delta}\leq 1$ such that for all $\delta\geq\tilde{\delta}$, there is a Nash equilibirum of infinitely repeated game with payoff $\vec{v}$.
+\end{atheorem}
+\begin{remark}
+    The `folk theorem' for repeated game is named this way because it is ``common knowledge'' and we cannot attribute it to one person.
+\end{remark}
+
+The proof is to use some sort of Grim trigger strategy. If someone defaults, then punish with the minimal strategy.
+
+This theorem is both very useful and not useful. On one hand, this gives us a sufficient condition for a Nash equilibrium. On the other hand, we need to justify why each of the Nash equilibirum can show up in real life.
+
+We can model `societal norms' as these repeated games. Under this modelling, we can expect cooperative strategies that keep society functioning. (e.g. if you don't give up your seat we will throw you off the bus)
+
+\begin{aexample}{Repeated Betrand}{}
+    Recall that the Betrand competition is a price competition. The Nash equilibrium is both prices are $0$. The feasible strategies lie within the triangle on the lower left half of $[0,1/4]\times [0,1/4]$, depending on who gets the lowest price.
+
+    Theoretically, there is a good place where both firms `collude' implicitly and declare the price of $1/2$, and each gets a payoff of $1/8$. 
+\end{aexample}
