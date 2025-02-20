@@ -43,6 +43,8 @@
 \usepackage{array}
 \usepackage{xparse}
 
+\usepackage{forloop}
+
 \tcbuselibrary{theorems}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -273,6 +275,17 @@
 \renewcommand{\qedsymbol}{\if\sakuraqed1 {\raisebox{-0.5ex}{\resizebox{2.5ex}{2.5ex}{\sakura}}}\else {\oldqed}\fi}
 
 \newcommand{\newsection}{\setcounter{thmcounter}{0}}
+
+
+
+\newcommand{\usection}[1]{\section*{#1}
+\addcontentsline{toc}{section}
+{#1}
+\addtocounter{section}{1}
+%{\protect\numberline{}#1}
+}
+
+
 %\ref{def:label}, \ref{prop:label}, \ref{thm:label}, \ref{ex:label}, \ref{cor:label}.
 % \setcounter{thmcounter}{0}
 % \begin{atheorem}[foor}{bar}{label} or use square brackets before the function, like 
@@ -285,16 +298,10 @@
 %\author{Chi Li}
 \begin{document}
 \maketitle
-\input{Lecture 1.tex}
-\input{Lecture 2.tex}
-\input{Lecture 3.tex}
-\input{Lecture 4.tex}
-\input{Lecture 5.tex}
-\input{Lecture 6.tex}
-\input{Lecture 7.tex}
-\input{Lecture 8.tex}
-\input{Lecture 9.tex}
-\input{Lecture 10.tex}
-\input{Lecture 11.tex}
-\input{Lecture 12.tex}
+\tableofcontents
+\newcounter{lecture}
+\forloop{lecture}{1}{\value{lecture}<14}
+{
+	\input{Lecture \arabic{lecture}.tex}
+}
 \end{document}

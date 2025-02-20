@@ -1,0 +1,123 @@
+\usection{Lecture 13: Auctions}
+\newsection
+\subsection*{Logistics}
+\begin{enumerate}
+    \item HW2 solutions posted
+    \item Exam next Tuesday
+    \item HW3 due Monday
+\end{enumerate}
+
+\subsection*{Recap}
+We started with static games with complete information. \begin{itemize}
+    \item Dominant strategies
+    \item Nash equilibria - concave games, mixed strategies, Nash's theorem
+\end{itemize}
+We then moved on to classes of games.
+\begin{itemize}
+    \item Zero-sum games - minimax and maximin
+    \item Infinite population games - wardrop equilibria
+    \item Congestion games - as a potential game
+    \item Supermodular game
+\end{itemize}
+Learning in games.
+\begin{itemize}
+    \item Best response dynamics
+    \item Fictitious play
+    \item Evolutionary game
+\end{itemize}
+Dynamic games with complete information \begin{itemize}
+    \item Extensive form of a game - `game tree model'
+    \item Subgame perfect equilibria - a refinement of Nash equilibria
+    \item Perfect and imperfect information (might have information set)
+    \item Repeated games - finite and infinitely repeated games with discounting - trigger strategies can lead to cooperative play
+    \item Folk theorem - characterizes the equilibria to repeated games
+\end{itemize}
+Finally, in the last lecture we focused on static game with incomplete information (Bayesian game).
+
+\subsection*{Auctions}
+Auctions are mechanisms to allocate an item to a set of bidders. Some examples include FCC auctions over wireless spectrum. In 2021, there was a C-band auction that allocated frequencies 3.7-3.98GHz for 4G and 5G wireless systems. It sold over 5684 licenses and resulted in 81 billion dollars in revenue. The Google ad platform operates like an auction, for allocating ad spots.
+\\
+There are two common information strategies for auctions.
+\begin{enumerate}
+    \item Private value model: each agent has and independently drawn value for the item.
+    \item Common value: the object has a value that is the same for all agents, drawn at random from some distribution. Agents only get independent signals about the value.
+\end{enumerate}
+
+There are different types of Auctions too.
+\definition{Auction types}{
+    A \textbf{sealed bid auction} is one that everyone bids secretly at one. A \textbf{first price auction} is one where the winner pays their bid. A \textbf{second price auction} is one where the winner pays the second highest bid.
+
+    A \textbf{dynamic auction} is one where the price is continuously changed. An \textbf{English auction} is one where the price is increased until there is only one interested bidder. A \textbf{Dutch auction} is one where the price starts at very high and decreased until one bidder is interest.
+
+    A \textbf{combinatorial auction} is an auction where people are interested in subsets of the items. An example is the allocation for frequencies - you want one frequency only if you have some large band of frequencies.
+}
+
+We now focus on first price auctions.
+
+\begin{aexample}{First Price Auction}{}
+    Two bidders each have private values $v_i$ drawn uniformly from $[0,1]$. If there is a tie in bids, the winner is chosen at random. The winner pays his bid. Thus, \[
+    \pi_1(b_1,b_2,v_1,v_2) = \begin{cases}
+        v_1-b_1, & \rm{if}\ b_1>b_2\\
+        \frac{v_1-b_1}{2}, & \rm{if}\ b_1=b_2\\
+        0, & \rm{otherwise}
+    \end{cases}.
+    \]
+    We want to find the Bayesian Nash equilibrium.
+\end{aexample}
+A pair of bidding functions $b_1(v_1),b_2(v_2)$ is a BNE when \[
+    b_i(v_i)=\arg\max_{b_i} (v_i-b_i) P(b_i>b_{-i}(v_{-i})) + \frac{1}{2}(v_i-b_i)P(b_i=b_{-i}(v_{-i})).
+\]
+This is horrible to compute. Let us conjecture that $b_1,b_2$ are linear (affine) functions in $v_1,v_2$ respectively.
+i.e. 
+\begin{align*}
+    b_1(v_1) &= a_1 + c_1v_1,\\
+    b_2(v_2) &= a_2 + c_2v_2.
+\end{align*} 
+
+Let us fix a linear bid for bidder $2$. We consider $1$'s best response. Since $P(b_1=b_2(v_2))=0$ for any $b_1$, we can disregard the second term in the expected value, and want to maximize \[
+    (v_1-b_1) P(b_1>b_{2}(v_{2})) =  (v_1-b_1) P (b_1 > a_2+c_2v_2)
+\]
+A rational bid would lie between $[a_2,a_2+c_2]$, so let us assume that. So that \[
+    P (b_1 > a_2+c_2v_2) = \frac{b_1-a_2}{c_2}
+\]
+Maximizing the quadratic function in $b_1$ leads to \[
+b_1^* = \frac{v_1+a_2}{2},\]
+which is linear in $v_1$. A same argument would yield \[
+b_2^* = \frac{v_2+a_1}{2}
+\]
+If both players are best responding to each other, we must get \[
+a_1=a_2/2, a_2=a_1/2 \implies a_1=a_2=0.
+\]
+So the equilibrium is they each bid half their value. This means in a first price auction, there usually is some bid-shading where people bid not as high.
+
+What is the expected payment of player one in terms of $v=v_1$?
+It turns out to be \begin{align*}
+    P(\textrm{1 wins}) \frac{v}{2} = P(v>v_2) \frac{v}{2} =\frac{v^2}{2}. 
+\end{align*}
+\begin{aexample}{Second Price Auction}{}
+    Two bidders each have private values $v_i$ drawn uniformly from $[0,1]$. If there is a tie in bids, the winner is chosen at random. The winner pays the loser's (second highest) bid. The payoff is now \[
+        \pi_1(b_1,b_2,v_1,v_2) = \begin{cases}
+            v_1-\textcolor{red}{b_2}, & \rm{if}\  b_1>b_2\\
+            \frac{v_1-\textcolor{red}{b_2}}{2}, & \rm{if}\ b_1=b_2\\
+            0, & \rm{otherwise}
+        \end{cases}.
+    \]
+    We want to find the Bayesian Nash equilibrium.
+\end{aexample}
+
+We claim that there is a weakly dominant strategy to set $b_i=v_i$. This is known as a truthful bid. It is apparent from \[
+E[\textrm{bidder 1 winnings}| v_1,b_1] =
+P(b_1>b_2)(v_1-b_2) + \frac{1}{2}P(b_1=b_2) (v_1-b_2). 
+\]
+
+The expected payment of $1$ given $v=v_1$ is \[
+E[v_2 ; v>v_2] =\frac{v^2}{2}.
+\]
+This is the same payment as the first price auction!
+
+\begin{atheorem}{Revenue Equivalence}{}
+    Consider any auction where bidders submit single bids and the auction assigns the object to the highest bidder. Assume that the payments are non-decreasing in bids.
+    Then if the values are IID, any symmetric equilibria yields the same revenue. 
+\end{atheorem}
+
+Suppose that the bidders are honest. An English auction is similar to a second price auction. A Dutch auction is similar to a first price auction.

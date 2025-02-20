@@ -1,0 +1,15 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{Syllabus}{1}{section*.2}%
+\contentsline {section}{Lecture 1: Introduction to Game Theory}{2}{section*.5}%
+\contentsline {section}{Lecture 2: Games with Continuous Strategies}{6}{section*.8}%
+\contentsline {section}{Lecture 3: Finite Games}{10}{section*.13}%
+\contentsline {section}{Lecture 4: Zero sum games and infinite population games}{13}{section*.16}%
+\contentsline {section}{Lecture 5: Pricing}{17}{section*.18}%
+\contentsline {section}{Lecture 6: Best Response Dynamics}{22}{section*.21}%
+\contentsline {section}{Lecture 7: Fictitious play}{26}{section*.23}%
+\contentsline {section}{Lecture 8: Evolutionary Game Theory}{29}{section*.26}%
+\contentsline {section}{Lecture 9: Dynamic Games}{33}{section*.29}%
+\contentsline {section}{Lecture 10: Dynamic games (cont.)}{36}{section*.30}%
+\contentsline {section}{Lecture 11: Repeated Games}{40}{section*.32}%
+\contentsline {section}{Lecture 12: Static Games with Incomplete Information}{43}{section*.36}%
+\contentsline {section}{Lecture 13: Auctions}{46}{section*.40}%
