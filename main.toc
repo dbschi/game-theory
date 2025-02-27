@@ -13,3 +13,4 @@
 \contentsline {section}{Lecture 11: Repeated Games}{40}{section*.32}%
 \contentsline {section}{Lecture 12: Static Games with Incomplete Information}{43}{section*.36}%
 \contentsline {section}{Lecture 13: Auctions}{46}{section*.40}%
+\contentsline {section}{Lecture 14: Dynamic games with Incomplete information}{49}{section*.44}%
