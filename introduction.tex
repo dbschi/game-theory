@@ -1,0 +1,49 @@
+\section{Introduction}
+We begin the discussion of Markov games as an extension of repeated games.
+
+In a repeated game, one game is played over and over. We can generalize this so that the players play a `random' game (drawn from a known distribution) at each stage. If the distribution is constant, then this would just be a repeated Bayesian game. Therefore, we also want the players to have some sort of influence on the distribution depending on the current game and the actions the players take. Appealing to the definition of `Markov processes', we call these games Markov games.
+\definition{Markov Games}{
+    A \textbf{Markov game} $G=\{R,\mathcal{S},\{A_r\},\{\pi_{S,r}\},q\}$ consists of:\begin{enumerate}
+        \item The set of players $R$ and the state space $\mathcal{S}$.
+        \item For each state $S\in \mathcal{S}$ and each player $r\in R$, a action (strategy) set $A_r(S)$ for the player in the game $S$.
+        \item For each state $S\in \mathcal{S}$ and each player $r\in R$, a payoff function $\pi_{S,r}: \prod_{r'\in R} A_{r'}(S) \to \reals$ for player $r$ in game $S$.
+        \item A transition function $q$ for the next state given by\[
+        q(S^{t+1}|S^t,a^t)
+        \]
+        where $S^t$ is the current state at time $t$ and $a^t$ is the set of actions choosen by each player.
+    \end{enumerate}
+    If required, we can also introduce a discount rate $\delta$.
+}
+\begin{remark}
+    Under this definition, we can treat a repeated game as a Markov game with one state.
+\end{remark}
+
+Our first question in characterizing Markov game equilibria is as follows: is there an equilibirum where the decisions of each player are also `Markov' (in the spirit of the game)? That is, is there an equilibirum where each players strategy is only determined by the current state?
+\definition{Markov Perfect Equilibira}{
+    A \textbf{Markov strategy} for player $r$ is $\Theta:\mathcal{S} \to \sqcup_{S\in \mathcal{S}}A_r(S) $ that determines the action at time $t$ \[
+        a_r^t = \Theta(S^t).
+    \]
+    A \textbf{Markov Perfect Equilibirum} is a Nash equilibirum such that each player's strategy is Markov.
+}
+\begin{remark}
+    Assume the payoffs are uniformly bounded and the number of states are finite (or at least discrete). Then the discounted payoffs for each player exist in limit almost surely and converge in expectation. Thus, if all players are using Markov strategies, we can solve for the expected discounted payoffs by writing recurrance relations for payoffs for each state and solving the linear system.
+\end{remark}
+
+\proposition[markovbestmarkov]{
+    Markov strategies are a best response to a Markov strategy.
+}
+\begin{proof}
+    Suppose everyone except player $r$ is using a Markov strategy. Then if state $S$ is reached twice in the game at times $t_1$ and $t_2$, the subgames starting from the two times are indistinguishable for player $r$ except possibly a discounted factor in payoff. Thus a best response for $t_1$ is also a best response for $t_2$. Thus there is a best response independent of play history.
+\end{proof}
+
+We are now prepared to state the existence of Markov Perfect Equilibira.
+\theorem{Existence of Markov Perfect Equilibira}{
+    Let $G$ be a finite Markov game. That is $|\sqcup_{r\in R, S\in \mathcal{S}} A_r(S)|< \infty$. Then $G$ has a mixed-strategy Markov perfect equilibirum.
+}
+\begin{proof}
+    We consider a (one-stage) game $G'$, where the strategy set of each player correspond to a Markov strategy and the payoffs are the expected values of the payoffs in $G$ with the corresponding Markov strategies. By Nash, this game $G'$ has a mixed Nash equilibirum. We want to show that the corresponding mixed Markov strategies define a Markov Perfect equilibrium. This is true as by Proposition \ref{prop:markovbestmarkov}, each player is best responding to all other players.
+\end{proof}
+
+\example{
+
+}
