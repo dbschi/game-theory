@@ -44,8 +44,15 @@
 \usepackage{xparse}
 
 \usepackage{forloop}
-
-\tcbuselibrary{theorems}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+%\fancyhf[lh]{\itshape Immanuel Kant}
+\fancyhf[ch]{\itshape\thetitle{}}
+\fancyhf[rh]{\theauthor}
+\fancyhf[cf]{--- \thepage ---}
+\tcbuselibrary{theorems,skins,breakable}
+\tcbuselibrary{theorems,skins,breakable}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -154,40 +161,38 @@
 
 
 %%% Eliseu's fix for theorem numbering
-
 % Definition
 \NewTcbTheorem[number within=section, use counter=thmcounter]{adefinition}{Definition}{
 	colframe=black, 
 	separator sign none, 
-	description delimiters parenthesis}{def}
+	description delimiters parenthesis,breakable}{def}
 % Proposition
 \NewTcbTheorem[number within=section, use counter=thmcounter]{aproposition}{Proposition}{
 	colframe=red!50!blue!20!white,colback=red!35!blue!10!white, coltitle=black,
 	separator sign none, 
-	description delimiters parenthesis}{prop}
+	description delimiters parenthesis,breakable}{prop}
 % Theorem
 \NewTcbTheorem[number within=section, use counter=thmcounter]{atheorem}{Theorem}{
 	colframe=red!40,colback=red!5!white, coltitle=black,
 	separator sign none, 
-	description delimiters parenthesis}{thm}
+	description delimiters parenthesis,breakable}{thm}
 
 % Lemma
 \NewTcbTheorem[number within=section, use counter=thmcounter]{alemma}{Lemma}{
 	colframe=blue!40,colback=blue!5!white, coltitle=black,
 	separator sign none, 
-	description delimiters parenthesis}{lemma}
+	description delimiters parenthesis,breakable}{lemma}
 % Example
 \NewTcbTheorem[number within=section, use counter=thmcounter]{aexample}{Example}{
 	colframe=yellow!20!white,colback=yellow!10!white,coltitle=black,
 	separator sign none, 
-	description delimiters parenthesis}{ex}
+	description delimiters parenthesis,breakable}{ex}
 % Corollary
 \NewTcbTheorem[number within=section, use counter=thmcounter]{acorollary}{Corollary}{
 	separator sign none, 
 	description delimiters parenthesis,
 	coltitle=black,
-	attach title to upper={:\ }}{cor}
-
+	attach title to upper={:\ },breakable}{cor}
 
 %%% Eliseu's fix for backwards compatibility with Chi's macros
 

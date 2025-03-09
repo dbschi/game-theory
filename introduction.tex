@@ -7,9 +7,9 @@ In a repeated game, one game is played over and over. We can generalize this so 
         \item The set of players $R$ and the state space $\mathcal{S}$.
         \item For each state $S\in \mathcal{S}$ and each player $r\in R$, a action (strategy) set $A_r(S)$ for the player in the game $S$.
         \item For each state $S\in \mathcal{S}$ and each player $r\in R$, a payoff function $\pi_{S,r}: \prod_{r'\in R} A_{r'}(S) \to \reals$ for player $r$ in game $S$.
-        \item A transition function $q$ for the next state given by\[
+        \item A transition function $q$ for the next state given by$
         q(S^{t+1}|S^t,a^t)
-        \]
+        $
         where $S^t$ is the current state at time $t$ and $a^t$ is the set of actions choosen by each player.
     \end{enumerate}
     If required, we can also introduce a discount rate $\delta$.
@@ -26,9 +26,8 @@ Our first question in characterizing Markov game equilibria is as follows: is th
     A \textbf{Markov Perfect Equilibirum} is a Nash equilibirum such that each player's strategy is Markov.
 }
 \begin{remark}
-    Assume the payoffs are uniformly bounded and the number of states are finite (or at least discrete). Then the discounted payoffs for each player exist in limit almost surely and converge in expectation. Thus, if all players are using Markov strategies, we can solve for the expected discounted payoffs by writing recurrance relations for payoffs for each state and solving the linear system.
+    Assume the payoffs are uniformly bounded and the number of states are finite (or at least discrete). Then the discounted payoffs for each player exist in limit almost surely and converge in expectation. Thus, if all players are using Markov strategies, we can solve for the expected discounted payoffs by writing recurrance relations for payoffs for each state and solving the linear system. In fact, this is the usually approach for dealing Markov games, as we will see in the examples later.
 \end{remark}
-
 \proposition[markovbestmarkov]{
     Markov strategies are a best response to a Markov strategy.
 }
@@ -37,13 +36,84 @@ Our first question in characterizing Markov game equilibria is as follows: is th
 \end{proof}
 
 We are now prepared to state the existence of Markov Perfect Equilibira.
-\theorem{Existence of Markov Perfect Equilibira}{
+\theorem{Existence of Markov Perfect Equilibira \cite{FT}}{
     Let $G$ be a finite Markov game. That is $|\sqcup_{r\in R, S\in \mathcal{S}} A_r(S)|< \infty$. Then $G$ has a mixed-strategy Markov perfect equilibirum.
 }
 \begin{proof}
     We consider a (one-stage) game $G'$, where the strategy set of each player correspond to a Markov strategy and the payoffs are the expected values of the payoffs in $G$ with the corresponding Markov strategies. By Nash, this game $G'$ has a mixed Nash equilibirum. We want to show that the corresponding mixed Markov strategies define a Markov Perfect equilibrium. This is true as by Proposition \ref{prop:markovbestmarkov}, each player is best responding to all other players.
 \end{proof}
+As a simple example, an infinitely repeated game that has a Nash equilibirum. If the equilibirum is unique, then the only Markov Perfect equilibirum is that all players use the same Nash Equilibirum strategy at every stage.
+%\begin{aexample}{Monopoly as a Markov game}{}
+\subsection*{Monopoly as a Markov Game}
+    We model the board game Monopoly as a Markov game. Suppose there are $N$ players in the game. We can represent each state of the board by the following parameters: The location, assets (cash and properties) of each player and the player making the decision in that state. 
 
-\example{
+    Upon arriving each state, the player can choose to buy the property, or pay rent. The player making the decision can also propose a trade with other players, which is essentially a proposal to change the state to another with the same sum of possed assets and the same location. More rules can be incoporated to increase the complexity of the game, but these are still finite (going to jail, chance, passing go etc).
 
-}
+    We can model the transitions as follows: The next player making the decision advances his position according to the value determined by the sum of dice rolls. This property is Markov.
+    The payoff at each stage is $0$, as nobody wins yet. The only states with payoffs are the ending states when all but one player are bankrupt. The winning player gets a payoff of 1 and the rest gets 0. The game also terminates at this stage.
+%\end{aexample}
+
+Unfortunately, Monopoly is not a finite game. This is because the bank never runs out of money, so the assets parameter can take infinitely many values. Other parameters are bounded - specifically the number of houses and hotels are capped. A way to mitigate this is to look for $\epsilon-$stable Nash equilibira, by introducing a future discount factor $\delta$. For sufficiently wealthy players, it would take too many turns drain their money, so the discounted payoff for even the winning player is $<\epsilon$. Thus, we can limit the wealth of each player to be $\leq M$ for some absurd amount of wealth $M$ depending on how patient the players are. Under this new modified game, there is a Markov perfect equilibium. Moreover, since players do not make simutaneous decisions and have perfect information, the equilibirum is pure.
+\section{Case study - Markov Perfect Equilibira of a bargaining game}
+We study a one-player Markov game (and will generalize it to two players), both of which were studied by Cripps \cite{Cripps1998}, which seems to be inspired by stock market prices.
+\begin{aexample}{Optimial stopping}{stopping}
+    Suppose Bob has an item whose value on day $d$ depends on a Markov process with countable states i.e. there is some function $f:\mathcal{S}\to \reals$ $V_d=f(S_d)\geq 0$. We number these states $1,2,...$ such that $1=f(1)>f(2)>...$. Without loss of generality, we can set that the infimum of $f$ is 0. On any day $d$, Bob can choose to use the item with payoff $\delta^d V_d$ and the game terminates. Thus we can can model the transition probability to be independent of Bob's action and write the transition probability from state $n$ to $m$ as $q(m|n)$. 
+\end{aexample}
+There is an intuitive `best strategy'. On day $i$, Bob can use the item for $f(i)$, or wait a day an repeat the strategy. Thus, the optimal strategy of stopping time $\tau$ can be identified with a subset $G\subseteq \mathbb{N}$, such that the $\tau$ is the first time the state enters the set $G$. We take the supremum of this payoff over all subsets $G$. Let $v(i)$ describe the supremum of payoff across all strategies with $S^1=i$. We thus have \[
+    v (i) = \max(f(i),\delta \sum_j p(j,i)v(j) ) \geq f(i).
+\]
+This means we must have the optimal stopping criterions given by $G={i:v(i)=f(i)}$.
+\begin{alemma}{Cripps}{}
+    If the Markov Chain is also irreducible and aperiodic, then the solution $\tau^*$ described above gives a Markov Perfect equilibira. That is, the solution produces the expected payout \[
+    v(i) = E_i \delta^{\tau^*} f(S_{\tau^*}).
+    \]
+\end{alemma}
+
+\begin{aexample}{Markov Bargaining}{}
+    
+We now extend this game to two players. We use the same item as in example \ref{ex:stopping}. Now Alice owns the item and wants to sell it to Bob. On each day, the value of the item is known to both players. Alice can propose to sell the item for $x_1$, to which Bob can accept or reject. If Bob rejects, the game continues into the next day and Bob proposes a bid. They alternate bargains until Bob decides to buy. If Bob accepts the offer on day $d$, Alice gets a payoff of $x_d$. Upon obtaining the item, Bob can use it any time in the future according to the optimal stopping strategy with the same payoff as in the previous example. Furthermore, Alice and Bob have discount factors $\gamma$ and $\delta$ respectively. The payoffs for Alice and Bob are thus \[
+    (\gamma^d x_d, \delta^d(v(i)-x_d)).
+    \]
+\end{aexample}
+\begin{atheorem}{}{existence}
+    There exists a Markov Perfect equilibrium for the aperiodic irreducible Markov Bargaining game.
+\end{atheorem}
+\begin{proof}[Sketch of proof]
+    Similar to the infinite horizon bargaining game, we assume that the payoffs for Alice and Bob at each state $i$ are $\alpha(i)$ and $\beta(i)$ respectively. Recursively, if both players are best responding to each other we must have the bidder proposing the payoffs $(v(i)-\beta(i),\beta(i))$, and the seller proposing the payoffs $(v(i)-\delta E[\beta(S^{2})|S^1=i],\delta E[\beta(S^{2})|S^1=i])$. Each player must wait two turns to repropose, so we need to solve \begin{align*}
+        \alpha(i) = \max(v(i) -\delta E[\beta(S^{2})|S^1=i] , \gamma^2  E[\alpha(S^{3})|S^1=i] ),\\
+        \beta(i) = \max(v(i) -\gamma E[\alpha(S^{3})|S^2=i] , \delta^2  E[\beta(S^{4})|S^2=i] )
+    \end{align*}
+    The remaining parts of the proof boils down to constructing the solution to this system of equations.
+\end{proof}
+\begin{alemma}{}{}
+    Let $v_\delta$ and $v_\gamma$ denote the expected payoffs in the Optimal Stopping game with discount factor $\delta$ and $\gamma$ respectively.
+    Then if $v_\delta(i)=v_\gamma (i) = f(i)$ for some state $i$, the bargaining will result in an agreement in state $i$.
+\end{alemma}
+\begin{proof}[Sketch of proof]
+    We prove it for Alice. Suppose Alice does not want an agreement. We have $\alpha(i)\geq v_\delta(i) -\delta E[\beta(S^{2})|S^1=i]\implies \alpha(i)+\delta E[\beta(S^{2})|S^1=i]\geq v_\delta(i) $. Notice that left hand side describes the sum of discounted payoffs when agreement is reached, possibly in the future. Recall that when an agreement is reached, the sum of their payoffs is exactly $v_\delta(S^d)$ before discounting. But for any (future) stopping time, the expected value of $\max(\delta,\gamma)^{\tau} S^{\tau}$ is less than $v_\delta(i)$ by the condition  $v_\delta(i)=v_\gamma (i) = f(i)$. So we must also have equality.
+\end{proof}
+\begin{atheorem}{Cripps}{}
+    With no additional conditions on the Markov process, if $\delta\geq \gamma$ and $\gamma<1$, then there is a unique Markov Equilibirum characterized by the equations \begin{align*}
+        \alpha(i) - \gamma\delta E[\alpha(S^3)|S^1=i]=v_\delta(i)-\delta E[v_\delta(S^2)|S^1=i]\\
+        \beta(i) - \gamma\delta E[\beta(S^3)|S^1=i]=v_\delta(i)-\gamma E[v_\delta(S^2)|S^1=i].
+    \end{align*}
+\end{atheorem}
+The proof is very similar to solving the equations Theorem \ref{thm:existence}, except that it deals with the supremum and infimum of all possible Nash equilibirum payoffs.
+\section{Justification and implications of Markov Perfect Equilibria}
+
+Using the Markov Perfect equilibira of Monopoly, we can see that trading is not useful for winning when there are only two players. Assigning a probability of winnning
+for each state, the only way a trade reaches agreement is that both players increase in winning probability, which is impossible. When there are three or more players, it is possible that all players involved benefit at the expense of the players outside the trade, such as two people exchanging to complete a set of properties. Trading in two players is expected not because that it is beneficial for either player in the sense of winning probability, but the game is expedited so the discounted payoffs are increases. In particular, if players are not equally patient, the more patient player usually benefits from the trades when considering winning proability.
+
+The unique equilibirum in the bargaining example is qualitatively similar to the deterministic bargaining problem solved by Rubinstein \cite{Cripps1998}, with discounted payoffs based on the transition multiplied by the discount factor, and $v_\delta$ describing the absolute value of the item. However, the proof requires the seller to be less patient than the buyer. In this equilibirum, the agreement is reached before the stopping time for using is reached. That is, Bob never finds himself in a situation where he would want to use the item but does not own it. Because Bob ends up with the item, it is never beneficial for the buyer to delay agreement. The same equilibrium cannot be used for when the seller is more patient than the buyer, as the seller may find it beneficial to delay agreements. Consider the following:\begin{aexample}{Delaying in agreement for seller}{}
+    Let $f(S^1)={1/2}$ and $f(S^d)=1$ onwards, and $\gamma >\delta$. If $\delta<1/2$, the Bob will use the item on day $1$ if it is bought. From day 2 onwards the value of the item is deterministic, so the Rubenstein's solution applies with payoffs in day 2 equalling \[
+    (\gamma (1-\delta)/(1-\delta\gamma), (1-\gamma)/(1-\delta\gamma)).
+    \] 
+    So in day 1, Alica can either wait until day 2 to get payoff of $\gamma^2 (1-\delta)/(1-\delta\gamma)$, or offer based on the discounted payoff $(1/2 - \delta(1-\gamma)/(1-\delta\gamma),\delta(1-\gamma)/(1-\delta\gamma))$. Take $\gamma=1$, $\delta = 0.000001$. Even Bob wants to use the item on day 1, the agreement is reached on day 2.
+\end{aexample}
+
+Markov Perfect Equilibira are also inherently non-cooperative. This is useful for modelling the stock market with too many people to reach a consensus. For smaller settings, cooperative solutions can be reached, such as collusion. There is an analogous folk theorem for Markov Games. I shall state this but not prove, as it takes too long to set up (which will be evident in its statement). Moreover, the enforcing strateging is somewhat similar in spirit to the original folk theorem, that is, through the punishment regime. \begin{atheorem}{Folk Theorem for Markov Games \cite{Dutta1995}}{}
+    Let $G$ be a Markov Game with discounted payoff factor $\delta<1$. Assume that for any set of strategies the long-term payoff and long term min-max of agents is independent of starting state.
+    We call a outcome \textbf{feasible} if it lies in the convex hull of the discounted payoffs over all pure Markov strategies. We call a outcome \textbf{individually rational} if each agent's long term payoff is at least the long term min-max payoff of the agent. 
+    
+    Assume that the set of feasible payoffs (the convex hull) has dimension equal to the number of players. Then for $\epsilon>0$ and any feasible and individually rational outcome $\pi$ there is $\tilde{\delta}<1$ such that for any $\delta\geq \tilde{\delta}$ there is an equilibrium strategy such that the long term payoffs converge to within $\epsilon$ of $\pi$.
+\end{atheorem}
