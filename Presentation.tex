@@ -1,0 +1,242 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+\newcommand{\stackeq}[1]{\stackrel{\mathclap{\normalfont\mbox{\normalfont\tiny {#1}}}}{=}}
+\newcommand{\reals}{\mathbb{R}}
+\newcommand\defeq{\mathrel{\stackrel{\makebox[0pt]{\mbox{\normalfont\tiny def}}}{=}}}
+%----------------------------------------------------------------------------------------
+%    TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Equilibrium in Markov Games}
+\subtitle{EE495 Final Project}
+
+\author{Chi Li}
+
+%\institute
+%{
+%%    Department of Computer Science and Information Engineering \\
+%    National Taiwan University % Your institution for the title page
+%}
+%\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%    PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%\begin{frame}{Overview}
+    % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+%    \tableofcontents
+%\end{frame}
+
+%------------------------------------------------
+\section{First Section}
+%------------------------------------------------
+\begin{frame}{Motivation}
+    \begin{itemize}
+        \item We want to merge together repeated games and Bayesian games. 
+        \item Simplest: repeated Bayesian games
+        \item Add a new criterion that the previous game influences the next game - the games played in each stage represents a Markov process.
+    \end{itemize}
+    
+\end{frame}
+\begin{frame}{Introduction to Markov Games}
+    \begin{block}{Definition}
+        A \textbf{Markov game} $G=\{R,\mathcal{S},\{A_r\},\{\pi_{S,r}\},q\}$ consists of:\begin{itemize}
+            \item The set of players $R$ and the state space $\mathcal{S}$.
+            \item For each state $S\in \mathcal{S}$ and each player $r\in R$, a action (strategy) set $A_r(S)$ for the player in the game $S$.
+            \item For each state $S\in \mathcal{S}$ and each player $r\in R$, a payoff function $\pi_{S,r}: \prod_{r'\in R} A_{r'}(S) \to \reals$ for player $r$ in game $S$.
+            \item A transition function $q$ for the next state given by$
+            q(S^{t+1}|S^t,a^t)
+            $
+            where $S^t$ is the current state at time $t$ and $a^t$ is the set of actions choosen by each player.
+        \end{itemize}
+        If required, we can also introduce a discount rate $\delta$.
+    \end{block}
+\end{frame}
+\begin{frame}{Markov Perfect Equilirium}
+    \begin{itemize}
+        \item A natural question to ask is if there exists a strategy that depends on state.
+    \end{itemize}
+    \begin{block}{Definition}
+    A \textbf{Markov strategy} for player $r$ is $\Theta:\mathcal{S} \to \sqcup_{S\in \mathcal{S}}A_r(S) $ that determines the action at time $t$ \[
+        a_r^t = \Theta(S^t).
+    \]
+    A \textbf{Markov Perfect Equilibirum} is a Nash equilibirum such that each player's strategy is Markov.
+    \end{block}
+    \begin{itemize}
+        \item If everyone else is playing a Markov strategy, the best response is also a Markov strategy.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Markov Perfect Equilirium - existence}
+    
+    \begin{alertblock}{Theorem \cite{FT}}
+    Let $G$ be a finite Markov game. Then $G$ has a mixed-strategy Markov perfect equilibrium.
+    \end{alertblock}
+    \begin{proof}
+        Expand the strategy set of each player to the set of all Markov strategies, and the payoff to be the expected discounted payoff in the long run. This new game is still finite, so has a mixed equilibrium by Nash.
+    \end{proof}
+\begin{corollary}
+    Monopoly has a pure strategy Markov Perfect Equilibirium.
+\end{corollary}
+
+\end{frame}
+\begin{frame}{Other Markov games}
+    \begin{itemize}
+        \item 
+        Bob has a cake. The enjoyment out of eating the cake is determined by a Markov process with countable states. When should Bob eat the cake?
+        \item Intuitive strategy: at each day, choose whether to eat or save it for later (and get the expected value of enjoyment)
+        \item Let $v(i)$ be the best payoff if the cake starts in state $i$, then solve \[
+        v(i) = \max(\textrm{enjoyment today}, \delta E[v(\textrm{state tomorrow})]).
+        \] 
+        \item Optimal stopping solution exists for irreducible aperiodic Markov chains.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Other Markov games \cite{Cripps1998}}
+    \begin{itemize}
+        \item Alice has a cake and Bob wants to buy it (to eat using the optimal stopping strategy)
+        \item Alice and Bob take turns each day to propose a price for the cake (Alice offers day 1, Bob bids day 2...)
+        \item Once agreement is reached, Bob can choose to eat it any time.
+    \end{itemize}
+    \begin{alertblock}{Theorem }
+        Markov Perfect equilibrium exists for when: \begin{itemize}
+            \item The underlying Markov Process is aperiodic and irreducible
+            \item Bob is more patient than Alice
+        \end{itemize}
+        \end{alertblock}
+        Idea of proof: same as the infinite horizon game, can solve for recurrance relations. (just more annoying)
+\end{frame}
+
+\begin{frame}{Justification for Markov games}
+    \begin{itemize}
+        \item Describes Monopoly behavior reasonably well: No trading in 2 player games, but 3+ player. Trading in 2+ players only to expedite the game.
+        \item Does not describe state of mind well. How many states would we need to compute the MPE of monopoly? \[
+        (40)^N * (28)^{N+1} * 6^8 * (M)^N
+        \]
+        \item Competitive programmer heuristic: 1 second is around $10^{9-10}$ computations.
+        \item In Markov Bargaining - the solved equilibria resembles that of a fixed bargaining with discount
+        \item \alert{Except:} seller is more patient than buyer. In that case, the buyer might not obtain the cake before he wants to eat it.
+        \item Non-cooperative solution.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Folk theorem for Markov Games}
+    \begin{alertblock}{Folk Theorem for Markov Games \cite{Dutta1995}}
+        Suppose that the long term payoff and min-max (for punishment) for all agents do not depend on the initial state. Then any individually rational\footnote{Each agent gets at least the min-max payoff} and feasible\footnote{Lies within the convex hull of payoffs for all pure Markov strategies} outcome is attainable\footnote{For any $\epsilon>0$ the probability of attaining an outcome within $\epsilon$ of the desired outcome} for sufficiently patient players.
+    \end{alertblock}
+\end{frame}
+
+
+\begin{frame}{References}
+    \footnotesize
+    \bibliography{project.bib}
+    \bibliographystyle{abbrv}
+\end{frame}
+
+%------------------------------------------------
+\iffalse
+\begin{frame}{Blocks of Highlighted Text}
+    In this slide, some important text will be \alert{highlighted} because it's important. Please, don't abuse it.
+
+    \begin{block}{Block}
+        Sample text
+    \end{block}
+
+    \begin{alertblock}{Alertblock}
+        Sample text in red box
+    \end{alertblock}
+
+    \begin{examples}
+        Sample text in green box. The title of the block is ``Examples".
+    \end{examples}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Multiple Columns}
+    \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+
+        \column{.45\textwidth} % Left column and width
+        \textbf{Heading}
+        \begin{enumerate}
+            \item Statement
+            \item Explanation
+            \item Example
+        \end{enumerate}
+
+        \column{.45\textwidth} % Right column and width
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\section{Second Section}
+%------------------------------------------------
+
+\begin{frame}{Table}
+    \begin{table}
+        \begin{tabular}{l l l}
+            \toprule
+            \textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2} \\
+            \midrule
+            Treatment 1         & 0.0003262           & 0.562               \\
+            Treatment 2         & 0.0015681           & 0.910               \\
+            Treatment 3         & 0.0009271           & 0.296               \\
+            \bottomrule
+        \end{tabular}
+        \caption{Table caption}
+    \end{table}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Theorem}
+    \begin{theorem}[Mass--energy equivalence]
+        $E = mc^2$
+    \end{theorem}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Figure}
+    Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
+    %\begin{figure}
+    %\includegraphics[width=0.8\linewidth]{test}
+    %\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
+    \frametitle{Citation}
+    An example of the \verb|\cite| command to cite within the presentation:\\~
+
+    This statement requires citation \cite{p1}.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{References}
+    \footnotesize
+    \bibliography{project.bib}
+    %\bibliographystyle{apalike}
+\end{frame}
+
+%------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+\fi
+\end{document}

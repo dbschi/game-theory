@@ -9,3 +9,7 @@
 *.bcf
 *.blg
 *.xml
+Presentation.toc
+Presentation.vrb
+Presentation.snm
+Presentation.nav
